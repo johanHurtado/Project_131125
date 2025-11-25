@@ -1,15 +1,23 @@
 {
   "name": "project_131125",
   "version": "1.0.0",
-  "description": "CREATE DATABASE crud_orm_demo CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;",
-  "main": "db.js",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johanHurtado/Project_131125.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/johanHurtado/Project_131125/issues"
+  },
+  "homepage": "https://github.com/johanHurtado/Project_131125#readme",
   "dependencies": {
     "bcrypt": "^6.0.0",
     "connect-session-sequelize": "^8.0.2",
