@@ -58,8 +58,8 @@ async function listar(){
     const tr = document.createElement('tr');
     const actions = (userRole === 'admin')
       ? `<button class="btn btn-sm btn-warning me-2" data-act="edit" data-id="${p.id}">Editar</button>
-         <button class="btn btn-sm btn-danger" data-act="del" data-id="${p.id}">Eliminar</button>`
-      : `<span class="text-muted">--</span>`;
+        <button class="btn btn-sm btn-danger" data-act="del" data-id="${p.id}">Eliminar</button>`
+      : `<span class="text-muted">Solo lectura</span>`;
 
     tr.innerHTML = `
       <td>${p.id}</td>
