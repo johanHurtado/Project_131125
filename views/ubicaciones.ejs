@@ -113,7 +113,12 @@
           <li class="nav-item"><a class="nav-link" href="/personas-mantenimiento">Personas</a></li>
           <li class="nav-item"><a class="nav-link" href="/cargos">Cargos</a></li>
           <li class="nav-item"><a class="nav-link" href="/mantenimientos">Mantenimientos</a></li>
-          <li class="nav-item"><a class="nav-link" href="/usuarios">Usuarios</a></li>
+           <% if (currentUser && currentUser.role === 'admin') { %>
+          <li class="nav-item">
+            <a class="nav-link" href="/usuarios">Usuarios</a>
+          </li>
+          <% } %>
+          <li class="nav-item"><a class="nav-link" href="/mi-perfil">Mi perfil</a></li>
         </ul>
 
         <!-- Usuario + Salir -->
