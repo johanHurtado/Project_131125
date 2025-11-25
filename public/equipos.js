@@ -99,7 +99,7 @@ if (!Array.isArray(data) || data.length === 0) {
       <td>${e.createdAt||''}</td><td>${e.updatedAt||''}</td>
       <td>
         <a class="btn btn-sm btn-info me-2" href="/mantenimientos?equipoId=${e.id}">Ver Mtto</a>
-        ${window.userRole === 'admin' ? `
+        ${window.userRole === 'admin' || window.userRole === 'administrativo' ? `
           <button class="btn btn-sm btn-warning me-2" data-act="edit" data-id="${e.id}">Editar</button>
           <button class="btn btn-sm btn-danger" data-act="del" data-id="${e.id}">Eliminar</button>
         ` : ''}

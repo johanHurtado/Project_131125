@@ -6,8 +6,8 @@ const btnNuevo = document.getElementById('btnNuevo');
 const modal = new bootstrap.Modal(document.getElementById('modal'));
 const $ = (id)=>document.getElementById(id);
 
-// para saber si el usuario actual es admin
-const isAdmin = window.CURRENT_USER_ROLE === 'admin';
+// para saber si el usuario actual es admin o administrativo
+const isAdmin = window.CURRENT_USER_ROLE === 'admin' || window.CURRENT_USER_ROLE === 'administrativo';
 
 // Helpers
 function prettyError(err) {
@@ -78,7 +78,7 @@ async function listar(){
       <td>${c.updatedAt||''}</td>
       <td class="col-acciones">
         ${
-          isAdmin
+          isAdmin || isAdmin
             ? `
               <button class="btn btn-sm btn-warning me-2"
                       data-act="edit" data-id="${c.id}">Editar</button>

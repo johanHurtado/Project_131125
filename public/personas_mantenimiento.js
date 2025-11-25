@@ -56,7 +56,7 @@ async function listar(){
   }
   data.forEach(p=>{
     const tr = document.createElement('tr');
-    const actions = (userRole === 'admin')
+    const actions = (userRole === 'admin' || userRole === 'administrativo')
       ? `<button class="btn btn-sm btn-warning me-2" data-act="edit" data-id="${p.id}">Editar</button>
         <button class="btn btn-sm btn-danger" data-act="del" data-id="${p.id}">Eliminar</button>`
       : `<span class="text-muted">Solo lectura</span>`;

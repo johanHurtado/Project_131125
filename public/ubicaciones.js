@@ -22,8 +22,8 @@ async function listar(){
   try {
     const data = await fetchJSON(API);
     const userResponse = await fetchJSON('/api/user'); // Obtén el rol del servidor
-    const isAdmin = userResponse.rol === 'admin';
-    console.log('Rol del usuario:', userResponse.rol, 'isAdmin:', isAdmin);
+    const isAdmin = window.CURRENT_USER_ROLE === 'admin' || window.CURRENT_USER_ROLE === 'administrativo';
+    console.log('Rol del usuario:', userResponse.rol, 'isAdmin:', isAdmin , userResponse.rol, 'isAdministrativo:', isAdministrativo);
     
     tbody.innerHTML = '';
     data.forEach(u=>{
@@ -32,7 +32,7 @@ async function listar(){
         <td>${u.id}</td><td>${u.identificacion}</td><td>${u.sede}</td><td>${u.edificio}</td><td>${u.piso}</td><td>${u.sala}</td>
         <td>${u.createdAt||''}</td><td>${u.updatedAt||''}</td>
         <td>
-          ${isAdmin ? `
+          ${isAdmin || isAdministrativo ? `
             <button class="btn btn-sm btn-warning me-2" data-act="edit" data-id="${u.id}">Editar</button>
             <button class="btn btn-sm btn-danger" data-act="del" data-id="${u.id}">Eliminar</button>
           ` : `<span class="text-muted small">Solo lectura</span>`}
