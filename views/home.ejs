@@ -5,166 +5,606 @@
   <title>Inicio | Inventario & Mantenimientos</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    :root {
+      --primary: #0d6efd;
+      --success: #198754;
+      --info: #0dcaf0;
+      --warning: #ffc107;
+      --danger: #dc3545;
+      --secondary: #6c757d;
+      --light-bg: #f5f7fa;
+      --light-card: #ffffff;
+      --light-text: #212529;
+      --light-muted: #6c757d;
+    }
+
+    html[data-theme="dark"] {
+      --light-bg: #1a1a2e;
+      --light-card: #16213e;
+      --light-text: #e0e0e0;
+      --light-muted: #b0b0b0;
+    }
+
+    body {
+      background: linear-gradient(135deg, var(--light-bg) 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      color: var(--light-text);
+    }
+
+    html[data-theme="dark"] body {
+      background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+    }
+
+    .navbar {
+      background: linear-gradient(90deg, var(--light-card) 0%, rgba(255,255,255,0.95) 100%) !important;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    html[data-theme="dark"] .navbar {
+      background: linear-gradient(90deg, rgba(22,33,62,0.95) 0%, rgba(15,52,96,0.95) 100%) !important;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: #0d6efd !important;
+      background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    main {
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+    }
+
+    .page-title {
+      font-weight: 700;
+      background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 2rem;
+    }
+
+    /* ====== GRADIENTES POR TIPO DE TARJETA ====== */
+    .card {
+      border: none !important;
+      border-radius: 16px;
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.3);
+      min-height: 380px;
+    }
+
+    /* CARD SUCCESS - Verde a Cian */
+    .card.card-success {
+      background: linear-gradient(135deg, rgba(25, 135, 84, 0.15) 0%, rgba(32, 201, 151, 0.1) 100%) !important;
+    }
+
+    html[data-theme="dark"] .card.card-success {
+      background: linear-gradient(135deg, rgba(25, 135, 84, 0.25) 0%, rgba(32, 201, 151, 0.15) 100%) !important;
+    }
+
+    /* CARD INFO - Cian a Azul */
+    .card.card-info {
+      background: linear-gradient(135deg, rgba(13, 202, 240, 0.15) 0%, rgba(13, 110, 253, 0.1) 100%) !important;
+    }
+
+    html[data-theme="dark"] .card.card-info {
+      background: linear-gradient(135deg, rgba(13, 202, 240, 0.25) 0%, rgba(13, 110, 253, 0.15) 100%) !important;
+    }
+
+    /* CARD WARNING - Amarillo a Naranja */
+    .card.card-warning {
+      background: linear-gradient(135deg, rgba(255, 193, 7, 0.15) 0%, rgba(255, 152, 0, 0.1) 100%) !important;
+    }
+
+    html[data-theme="dark"] .card.card-warning {
+      background: linear-gradient(135deg, rgba(255, 193, 7, 0.25) 0%, rgba(255, 152, 0, 0.15) 100%) !important;
+    }
+
+    /* CARD PRIMARY - Azul a Púrpura */
+    .card.card-primary {
+      background: linear-gradient(135deg, rgba(13, 110, 253, 0.15) 0%, rgba(108, 99, 255, 0.1) 100%) !important;
+    }
+
+    html[data-theme="dark"] .card.card-primary {
+      background: linear-gradient(135deg, rgba(13, 110, 253, 0.25) 0%, rgba(108, 99, 255, 0.15) 100%) !important;
+    }
+
+    /* CARD SECONDARY - Gris oscuro a Gris */
+    .card.card-secondary {
+      background: linear-gradient(135deg, rgba(108, 117, 125, 0.15) 0%, rgba(73, 80, 87, 0.1) 100%) !important;
+    }
+
+    html[data-theme="dark"] .card.card-secondary {
+      background: linear-gradient(135deg, rgba(108, 117, 125, 0.25) 0%, rgba(73, 80, 87, 0.15) 100%) !important;
+    }
+
+    /* CARD DANGER - Rojo a Rosa */
+    .card.card-danger {
+      background: linear-gradient(135deg, rgba(220, 53, 69, 0.15) 0%, rgba(231, 76, 60, 0.1) 100%) !important;
+    }
+
+    html[data-theme="dark"] .card.card-danger {
+      background: linear-gradient(135deg, rgba(220, 53, 69, 0.25) 0%, rgba(231, 76, 60, 0.15) 100%) !important;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--card-color), rgba(255,255,255,0.3));
+    }
+
+    .card-success { --card-color: #198754; }
+    .card-info { --card-color: #0dcaf0; }
+    .card-warning { --card-color: #ffc107; }
+    .card-primary { --card-color: #0d6efd; }
+    .card-secondary { --card-color: #6c757d; }
+    .card-danger { --card-color: #dc3545; }
+
+    .card:hover {
+      transform: translateY(-12px) scale(1.02);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    }
+
+    html[data-theme="dark"] .card:hover {
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    }
+
+    .card-body {
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .card-body > p {
+      flex-grow: 1;
+      margin-bottom: 1rem;
+    }
+
+    .icon-circle {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-right: 1rem;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+      backdrop-filter: blur(10px);
+      flex-shrink: 0;
+    }
+
+    .icon-circle.success { background: linear-gradient(135deg, #198754 0%, #20c997 100%); color: white; }
+    .icon-circle.info { background: linear-gradient(135deg, #0dcaf0 0%, #0d6efd 100%); color: white; }
+    .icon-circle.warning { background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%); color: white; }
+    .icon-circle.primary { background: linear-gradient(135deg, #0d6efd 0%, #6c63ff 100%); color: white; }
+    .icon-circle.secondary { background: linear-gradient(135deg, #6c757d 0%, #495057 100%); color: white; }
+    .icon-circle.danger { background: linear-gradient(135deg, #dc3545 0%, #e74c3c 100%); color: white; }
+
+    .card-title {
+      font-weight: 600;
+      font-size: 1.15rem;
+      margin: 0;
+      color: var(--light-text);
+    }
+
+    .card-text {
+      font-size: 0.95rem;
+      color: var(--light-muted);
+      line-height: 1.6;
+    }
+
+    .btn {
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px;
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+      border: none;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #198754 0%, #20c997 100%);
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: linear-gradient(135deg, #157347 0%, #1aa179 100%);
+      color: white;
+    }
+
+    .btn-info {
+      background: linear-gradient(135deg, #0dcaf0 0%, #0d6efd 100%);
+      color: white;
+    }
+
+    .btn-info:hover {
+      background: linear-gradient(135deg, #0b5ed7 0%, #0b58ca 100%);
+      color: white;
+    }
+
+    .btn-warning {
+      background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+      color: white;
+    }
+
+    .btn-warning:hover {
+      background: linear-gradient(135deg, #ffb300 0%, #f57c00 100%);
+      color: white;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0d6efd 0%, #6c63ff 100%);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #0b5ed7 0%, #5a52d5 100%);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: linear-gradient(135deg, #5c636a 0%, #3d444d 100%);
+      color: white;
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #dc3545 0%, #e74c3c 100%);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: linear-gradient(135deg, #c82333 0%, #c0392b 100%);
+      color: white;
+    }
+
+    .btn-theme {
+      background: rgba(13, 110, 253, 0.2);
+      color: #0d6efd;
+      border: 2px solid #0d6efd;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      padding: 0 !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+    }
+
+    .btn-theme:hover {
+      background: #0d6efd;
+      color: white;
+      transform: scale(1.1);
+    }
+
+    html[data-theme="dark"] .btn-theme {
+      background: rgba(255, 255, 255, 0.1);
+      color: #0dcaf0;
+      border-color: #0dcaf0;
+    }
+
+    html[data-theme="dark"] .btn-theme:hover {
+      background: #0dcaf0;
+      color: #16213e;
+    }
+
+    .container {
+      max-width: 1200px;
+    }
+
+    footer {
+      background: linear-gradient(90deg, var(--light-card) 0%, rgba(255,255,255,0.95) 100%) !important;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      box-shadow: 0 -2px 20px rgba(0,0,0,0.05);
+      backdrop-filter: blur(10px);
+    }
+
+    html[data-theme="dark"] footer {
+      background: linear-gradient(90deg, rgba(22,33,62,0.95) 0%, rgba(15,52,96,0.95) 100%) !important;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .row.g-4 {
+      row-gap: 2rem !important;
+    }
+
+    /* Animación suave de carga */
+    .card {
+      animation: fadeInUp 0.6s ease-out forwards;
+      opacity: 0;
+    }
+
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.2s; }
+    .card:nth-child(3) { animation-delay: 0.3s; }
+    .card:nth-child(4) { animation-delay: 0.4s; }
+    .card:nth-child(5) { animation-delay: 0.5s; }
+    .card:nth-child(6) { animation-delay: 0.6s; }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .nav-link {
+      color: var(--light-text) !important;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: #0d6efd !important;
+      transform: translateY(-2px);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .icon-circle {
+        width: 48px;
+        height: 48px;
+        font-size: 1.3rem;
+      }
+
+      .card-title {
+        font-size: 1rem;
+      }
+
+      .card-text {
+        font-size: 0.9rem;
+      }
+
+      .btn {
+        padding: 0.65rem 1.2rem;
+        font-size: 0.8rem;
+      }
+
+      .page-title {
+        font-size: 1.8rem;
+      }
+
+      .card {
+        min-height: 350px;
+      }
+    }
+  </style>
 </head>
 <body class="bg-white d-flex flex-column min-vh-100">
 
 <!-- NAVBAR SUPERIOR -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+<nav class="navbar navbar-expand-lg navbar-light border-bottom">
   <div class="container">
-
-    <!-- Logo + Nombre (estático) -->
     <a class="navbar-brand d-flex align-items-center gap-2" href="/">
-      <img 
-        src="/img/logosanrafa.png"
-        alt="logo"
-        style="height:35px; width:auto;" 
-        class="rounded"
-      >
+      <img src="/img/logosanrafa.png" alt="logo" style="height:40px; width:auto;" class="rounded">
       <span>HSRT</span>
     </a>
 
-
-    <!-- Botón colapsable móvil -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- Contenido navbar -->
     <div class="collapse navbar-collapse" id="mainNavbar">
-
-      <!-- Ítems del menú -->
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link" href="/equipos">Equipos</a></li>
-        <li class="nav-item"><a class="nav-link" href="/ubicaciones">Ubicaciones</a></li>
-        <li class="nav-item"><a class="nav-link" href="/responsables-custodios">Responsables</a></li>
-        <li class="nav-item"><a class="nav-link" href="/personas-mantenimiento">Personas</a></li>
-        <li class="nav-item"><a class="nav-link" href="/cargos">Cargos</a></li>
-        <li class="nav-item"><a class="nav-link" href="/mantenimientos">Mantenimientos</a></li>
-        <li class="nav-item"><a class="nav-link" href="/usuarios">Usuarios</a></li>
-        <li class="nav-item"><a class="nav-link" href="/mi-perfil">Mi Perfil</a></li>
+        <li class="nav-item"><a class="nav-link" href="/equipos"><i class="fas fa-box me-1"></i>Equipos</a></li>
+        <li class="nav-item"><a class="nav-link" href="/ubicaciones"><i class="fas fa-map-pin me-1"></i>Ubicaciones</a></li>
+        <li class="nav-item"><a class="nav-link" href="/responsables-custodios"><i class="fas fa-user me-1"></i>Responsables</a></li>
+        <li class="nav-item"><a class="nav-link" href="/personas-mantenimiento"><i class="fas fa-users me-1"></i>Personas</a></li>
+        <li class="nav-item"><a class="nav-link" href="/cargos"><i class="fas fa-briefcase me-1"></i>Cargos</a></li>
+        <li class="nav-item"><a class="nav-link" href="/mantenimientos"><i class="fas fa-wrench me-1"></i>Mantenimientos</a></li>
+        <li class="nav-item"><a class="nav-link" href="/usuarios"><i class="fas fa-user-shield me-1"></i>Usuarios</a></li>
+        <li class="nav-item"><a class="nav-link" href="/mi-perfil"><i class="fas fa-user-circle me-1"></i>Mi Perfil</a></li>
       </ul>
 
-      <!-- Usuario + Salir -->
-      <% if (currentUser) { %>
-        <span class="navbar-text me-3 text-muted small">
-          Usuario: <strong><%= currentUser.username %></strong> |
-          Rol: <strong><%= currentUser.role %></strong>
-        </span>
-        <form method="post" action="/logout" class="d-inline m-0">
-          <button class="btn btn-outline-danger btn-sm">Salir</button>
-        </form>
-      <% } %>
+      <div class="d-flex align-items-center gap-3">
+        <button class="btn btn-theme" id="themeToggle" title="Cambiar tema">
+          <i class="fas fa-moon"></i>
+        </button>
 
+        <% if (currentUser) { %>
+          <span class="navbar-text me-2 text-muted small">
+            <i class="fas fa-user-check me-1"></i>
+            <strong><%= currentUser.username %></strong> | 
+            <strong><%= currentUser.role %></strong>
+          </span>
+          <form method="post" action="/logout" class="d-inline m-0">
+            <button class="btn btn-danger btn-sm"><i class="fas fa-sign-out-alt me-1"></i>Salir</button>
+          </form>
+        <% } %>
+      </div>
     </div>
   </div>
 </nav>
 
+<!-- CONTENIDO PRINCIPAL -->
+<main class="flex-grow-1">
+  <div class="container">
+    <header class="mb-5 text-center">
+      <h1 class="page-title display-5 fw-bold">
+        <i class="fas fa-hospital me-2"></i>Sistema de Gestión de Inventario y Mantenimiento
+      </h1>
+      <p class="text-muted">Equipos Biomédicos – HSRT</p>
+    </header>
 
-  <!-- CONTENIDO PRINCIPAL -->
-  <main class="flex-grow-1">
-    <div class="container py-4">
-
-      <!-- Título de la página -->
-      <header class="mb-4 pb-2 border-bottom">
-        <h1 class="h5 m-0">
-          Sistema de Gestión de Inventario y Mantenimiento de Equipos Biomédicos – HSRT
-        </h1>
-      </header>
-
-      <!-- FILA 1 -->
-      <div class="row g-3 mb-2">
-        <div class="col-12 col-sm-6 col-lg-4">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-2">
-                <div class="rounded-circle bg-success-subtle text-success fw-bold d-inline-flex align-items-center justify-content-center me-2" style="width:40px;height:40px">📦</div>
-                <h5 class="m-0">Equipos biomedicos</h5>
-              </div>
-              <p class="text-secondary mb-3">Inventario de equipos biomédicos: series, estados, clasificación, uso clínico y control de mantenimiento.</p>
-              <a href="/equipos" class="btn btn-success w-100">Entrar</a>
+    <!-- FILA 1: 3 TARJETAS -->
+    <div class="row g-4 mb-4">
+      <!-- Equipos -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 card-success">
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-3">
+              <div class="icon-circle success"><i class="fas fa-box"></i></div>
+              <h5 class="card-title">Equipos Biomédicos</h5>
             </div>
-          </div>
-        </div>
-
-        <div class="col-12 col-sm-6 col-lg-4">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-2">
-                <div class="rounded-circle bg-info-subtle text-info fw-bold d-inline-flex align-items-center justify-content-center me-2" style="width:40px;height:40px">📍</div>
-                <h5 class="m-0">Ubicaciones Hospitalarias</h5>
-              </div>
-              <p class="text-secondary mb-3">Gestión de áreas: servicios médicos, unidades de hospitalización, quirófanos, urgencias, laboratorios y bodegas técnicas.</p>
-              <a href="/ubicaciones" class="btn btn-info w-100 text-white">Entrar</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-12 col-sm-6 col-lg-4">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-2">
-                <div class="rounded-circle bg-warning-subtle text-warning fw-bold d-inline-flex align-items-center justify-content-center me-2" style="width:40px;height:40px">👤</div>
-                <h5 class="m-0">Responsables / Custodios Clínicos</h5>
-              </div>
-              <p class="text-secondary mb-3">Asignación de equipos a personal asistencial, jefes de área o custodios responsables de su uso y cuidado.</p>
-              <a href="/responsables-custodios" class="btn btn-warning w-100">Entrar</a>
-            </div>
+            <p class="card-text">Inventario de equipos biomédicos: series, estados, clasificación, uso clínico y control de mantenimiento.</p>
+            <a href="/equipos" class="btn btn-success w-100 mt-auto"><i class="fas fa-arrow-right me-2"></i>Entrar</a>
           </div>
         </div>
       </div>
 
-      <!-- FILA 2 -->
-      <div class="row g-3 mb-2 justify-content-center">
-
-        <!-- CARGOS -->
-        <div class="col-12 col-sm-6 col-lg-4">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-2">
-                <div class="rounded-circle bg-primary-subtle text-primary fw-bold d-inline-flex align-items-center justify-content-center me-2" style="width:40px;height:40px">💼</div>
-                <h5 class="m-0">Cargos del Personal</h5>
-              </div>
-              <p class="text-secondary mb-3">Clasificación de cargos internos y externos del hospital relacionados con la operación y soporte técnico.</p>
-              <a href="/cargos" class="btn btn-primary w-100">Entrar</a>
+      <!-- Ubicaciones -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 card-info">
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-3">
+              <div class="icon-circle info"><i class="fas fa-map-pin"></i></div>
+              <h5 class="card-title">Ubicaciones Hospitalarias</h5>
             </div>
-          </div>
-        </div>
-
-        <!-- PERSONAS DE MANTENIMIENTO -->
-        <div class="col-12 col-sm-6 col-lg-4">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-2">
-                <div class="rounded-circle bg-secondary-subtle text-secondary fw-bold d-inline-flex align-items-center justify-content-center me-2" style="width:40px;height:40px">👥</div>
-                <h5 class="m-0">Personas de Mantenimiento</h5>
-              </div>
-              <p class="text-secondary mb-3">Registro de personal biomédico interno y proveedores externos encargados del mantenimiento de los equipos.</p>
-              <a href="/personas-mantenimiento" class="btn btn-secondary w-100">Entrar</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- MANTENIMIENTOS -->
-        <div class="col-12 col-sm-6 col-lg-4">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-2">
-                <div class="rounded-circle bg-danger-subtle text-danger fw-bold d-inline-flex align-items-center justify-content-center me-2" style="width:40px;height:40px">🛠️</div>
-                <h5 class="m-0">Mantenimientos Biomédicos</h5>
-              </div>
-              <p class="text-secondary mb-3">Gestión de mantenimientos preventivos, correctivos, calibraciones, hojas de vida, inspecciones y alertas técnicas.</p>
-              <a href="/mantenimientos" class="btn btn-danger w-100">Entrar</a>
-            </div>
+            <p class="card-text">Gestión de áreas: servicios médicos, unidades de hospitalización, quirófanos, urgencias y laboratorios.</p>
+            <a href="/ubicaciones" class="btn btn-info w-100 mt-auto"><i class="fas fa-arrow-right me-2"></i>Entrar</a>
           </div>
         </div>
       </div>
 
+      <!-- Responsables -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 card-warning">
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-3">
+              <div class="icon-circle warning"><i class="fas fa-user-tie"></i></div>
+              <h5 class="card-title">Responsables Clínicos</h5>
+            </div>
+            <p class="card-text">Asignación de equipos a personal asistencial, jefes de área o custodios responsables del cuidado.</p>
+            <a href="/responsables-custodios" class="btn btn-warning w-100 mt-auto"><i class="fas fa-arrow-right me-2"></i>Entrar</a>
+          </div>
+        </div>
+      </div>
     </div>
-  </main>
 
-  <!-- FOOTER "FIJO" ABAJO -->
-  <footer class="mt-auto py-2 border-top bg-light text-center text-body-secondary small">
-    © <%= new Date().getFullYear() %> USTA – Sistema de gestión de inventario y mantenimiento de equipos biomédicos
-  </footer>
+    <!-- FILA 2: 3 TARJETAS CENTRADAS -->
+    <div class="row g-4 justify-content-center">
+      <!-- Cargos -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 card-primary">
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-3">
+              <div class="icon-circle primary"><i class="fas fa-briefcase"></i></div>
+              <h5 class="card-title">Cargos del Personal</h5>
+            </div>
+            <p class="card-text">Clasificación de cargos internos y externos del hospital relacionados con operación y soporte técnico.</p>
+            <a href="/cargos" class="btn btn-primary w-100 mt-auto"><i class="fas fa-arrow-right me-2"></i>Entrar</a>
+          </div>
+        </div>
+      </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+      <!-- Personas de Mantenimiento -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 card-secondary">
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-3">
+              <div class="icon-circle secondary"><i class="fas fa-users"></i></div>
+              <h5 class="card-title">Personas de Mantenimiento</h5>
+            </div>
+            <p class="card-text">Registro de personal biomédico interno y proveedores externos encargados del mantenimiento.</p>
+            <a href="/personas-mantenimiento" class="btn btn-secondary w-100 mt-auto"><i class="fas fa-arrow-right me-2"></i>Entrar</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mantenimientos -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 card-danger">
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-3">
+              <div class="icon-circle danger"><i class="fas fa-wrench"></i></div>
+              <h5 class="card-title">Mantenimientos Biomédicos</h5>
+            </div>
+            <p class="card-text">Gestión de mantenimientos preventivos, correctivos, calibraciones y alertas técnicas de equipos.</p>
+            <a href="/mantenimientos" class="btn btn-danger w-100 mt-auto"><i class="fas fa-arrow-right me-2"></i>Entrar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="mt-auto py-3 text-center text-body-secondary small">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fas fa-copyright me-1"></i><%= new Date().getFullYear() %> USTA – Sistema de gestión de inventario y mantenimiento de equipos biomédicos
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  // ====== TEMA OSCURO/CLARO ======
+  const themeToggle = document.getElementById('themeToggle');
+  const html = document.documentElement;
+
+  // Obtener tema guardado o detectar preferencia del sistema
+  function getInitialTheme() {
+    const saved = localStorage.getItem('theme');
+    if (saved) return saved;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+
+  function setTheme(theme) {
+    html.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    const icon = themeToggle.querySelector('i');
+    icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+  }
+
+  // Inicializar
+  setTheme(getInitialTheme());
+
+  // Escuchar cambios
+  themeToggle.addEventListener('click', () => {
+    const current = html.getAttribute('data-theme');
+    setTheme(current === 'dark' ? 'light' : 'dark');
+  });
+
+  // Escuchar cambios del sistema
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    if (!localStorage.getItem('theme')) {
+      setTheme(e.matches ? 'dark' : 'light');
+    }
+  });
+</script>
+
+</body>
+</html>
