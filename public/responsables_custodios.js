@@ -34,8 +34,7 @@ async function listar(){
               <button class="btn btn-sm btn-danger"
                       data-act="del" data-id="${r.id}">Eliminar</button>
             `
-            : `<span class="text-muted small">Solo lectura</span>`
-        }
+            :'<span class="text-muted small">Solo lectura</span>' }
       </td>`;
     tbody.appendChild(tr);
   });
