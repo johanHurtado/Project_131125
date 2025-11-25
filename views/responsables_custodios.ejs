@@ -172,9 +172,9 @@
             <h1 class="page-title"><i class="fas fa-user me-2"></i>Responsables / Custodios</h1>
             <p class="page-sub">Áreas responsables o custodios asociados al inventario de equipos.</p>
           </div>
-          <div>
+              <div>
             <% if (currentUser && currentUser.role === 'admin') { %>
-              <button id="btnNuevo" class="btn btn-success btn-compact"><i class="fas fa-plus me-1"></i> Nueva área responsable</button>
+              <button id="btnNuevo" class="btn btn-success btn-compact" data-server="<%= currentUser && currentUser.role === 'admin' ? 'true' : 'false' %>"><i class="fas fa-plus me-1"></i> Nueva área responsable</button>
             <% } %>
           </div>
         </header>
@@ -291,7 +291,7 @@
     // mark client-visible button if server rendered it
     (function markServerRendered(){
       const btn = document.getElementById('btnNuevo');
-      if (btn && <%= currentUser && currentUser.role === 'admin' ? 'true' : 'false' %>) btn.dataset.server = 'true';
+      if (btn && btn.getAttribute('data-server') === 'true') btn.dataset.server = 'true';
     })();
 
     setTheme(getInitialTheme());
