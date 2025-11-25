@@ -12,16 +12,16 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
   <div class="container">
 
-    <!-- Logo + Nombre -->
+    <!-- Logo + Nombre (estático) -->
     <a class="navbar-brand d-flex align-items-center gap-2" href="/">
-  <img 
-    src="/img/logo.png"
-    alt="USTA"
-    style="height:32px; width:auto;" 
-    class="rounded"
-  >
-  <span>PDS-001</span>
-</a>
+      <img 
+        src="/img/logosanrafa.png"
+        alt="logo"
+        style="height:35px; width:auto;" 
+        class="rounded"
+      >
+      <span>PDS-001</span>
+    </a>
 
 
     <!-- Botón colapsable móvil -->
@@ -67,7 +67,7 @@
       <!-- Título de la página -->
       <header class="mb-4 pb-2 border-bottom">
         <h1 class="h5 m-0">
-          Módulo de gestión de inventario y registro de mantenimientos de equipos informáticos HSRT
+          Sistema de Gestión de Inventario y Mantenimiento de Equipos Biomédicos – HSRT
         </h1>
       </header>
 
@@ -78,9 +78,9 @@
             <div class="card-body">
               <div class="d-flex align-items-center mb-2">
                 <div class="rounded-circle bg-success-subtle text-success fw-bold d-inline-flex align-items-center justify-content-center me-2" style="width:40px;height:40px">📦</div>
-                <h5 class="m-0">Equipos</h5>
+                <h5 class="m-0">Equipos biomedicos</h5>
               </div>
-              <p class="text-secondary mb-3">Series, estados y mantenimiento.</p>
+              <p class="text-secondary mb-3">Inventario de equipos biomédicos: series, estados, clasificación, uso clínico y control de mantenimiento.</p>
               <a href="/equipos" class="btn btn-success w-100">Entrar</a>
             </div>
           </div>
@@ -91,9 +91,9 @@
             <div class="card-body">
               <div class="d-flex align-items-center mb-2">
                 <div class="rounded-circle bg-info-subtle text-info fw-bold d-inline-flex align-items-center justify-content-center me-2" style="width:40px;height:40px">📍</div>
-                <h5 class="m-0">Ubicaciones</h5>
+                <h5 class="m-0">Ubicaciones Hospitalarias</h5>
               </div>
-              <p class="text-secondary mb-3">Sedes, áreas, oficinas y salas.</p>
+              <p class="text-secondary mb-3">Gestión de áreas: servicios médicos, unidades de hospitalización, quirófanos, urgencias, laboratorios y bodegas técnicas.</p>
               <a href="/ubicaciones" class="btn btn-info w-100 text-white">Entrar</a>
             </div>
           </div>
@@ -104,9 +104,9 @@
             <div class="card-body">
               <div class="d-flex align-items-center mb-2">
                 <div class="rounded-circle bg-warning-subtle text-warning fw-bold d-inline-flex align-items-center justify-content-center me-2" style="width:40px;height:40px">👤</div>
-                <h5 class="m-0">Responsables/Custodios</h5>
+                <h5 class="m-0">Responsables / Custodios Clínicos</h5>
               </div>
-              <p class="text-secondary mb-3">Asignaciones y custodias.</p>
+              <p class="text-secondary mb-3">Asignación de equipos a personal asistencial, jefes de área o custodios responsables de su uso y cuidado.</p>
               <a href="/responsables-custodios" class="btn btn-warning w-100">Entrar</a>
             </div>
           </div>
@@ -122,9 +122,9 @@
             <div class="card-body">
               <div class="d-flex align-items-center mb-2">
                 <div class="rounded-circle bg-primary-subtle text-primary fw-bold d-inline-flex align-items-center justify-content-center me-2" style="width:40px;height:40px">💼</div>
-                <h5 class="m-0">Cargos</h5>
+                <h5 class="m-0">Cargos del Personal</h5>
               </div>
-              <p class="text-secondary mb-3">Tipos de cargo (interno/externo) para personas de mantenimiento.</p>
+              <p class="text-secondary mb-3">Clasificación de cargos internos y externos del hospital relacionados con la operación y soporte técnico.</p>
               <a href="/cargos" class="btn btn-primary w-100">Entrar</a>
             </div>
           </div>
@@ -136,9 +136,9 @@
             <div class="card-body">
               <div class="d-flex align-items-center mb-2">
                 <div class="rounded-circle bg-secondary-subtle text-secondary fw-bold d-inline-flex align-items-center justify-content-center me-2" style="width:40px;height:40px">👥</div>
-                <h5 class="m-0">Personas de mantenimiento</h5>
+                <h5 class="m-0">Personas de Mantenimiento</h5>
               </div>
-              <p class="text-secondary mb-3">Técnicos/proveedores internos y externos a cargo de los equipos.</p>
+              <p class="text-secondary mb-3">Registro de personal biomédico interno y proveedores externos encargados del mantenimiento de los equipos.</p>
               <a href="/personas-mantenimiento" class="btn btn-secondary w-100">Entrar</a>
             </div>
           </div>
@@ -150,9 +150,9 @@
             <div class="card-body">
               <div class="d-flex align-items-center mb-2">
                 <div class="rounded-circle bg-danger-subtle text-danger fw-bold d-inline-flex align-items-center justify-content-center me-2" style="width:40px;height:40px">🛠️</div>
-                <h5 class="m-0">Mantenimientos</h5>
+                <h5 class="m-0">Mantenimientos Biomédicos</h5>
               </div>
-              <p class="text-secondary mb-3">Gestión de mantenimientos preventivos, correctivos y alertas.</p>
+              <p class="text-secondary mb-3">Gestión de mantenimientos preventivos, correctivos, calibraciones, hojas de vida, inspecciones y alertas técnicas.</p>
               <a href="/mantenimientos" class="btn btn-danger w-100">Entrar</a>
             </div>
           </div>
@@ -164,9 +164,7 @@
 
   <!-- FOOTER "FIJO" ABAJO -->
   <footer class="mt-auto py-2 border-top bg-light text-center text-body-secondary small">
-    © <%= new Date().getFullYear() %> USTA – Módulo de gestión de inventario y registro de mantenimientos de equipos informáticos HSRT
+    © <%= new Date().getFullYear() %> USTA – Sistema de gestión de inventario y mantenimiento de equipos biomédicos
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>

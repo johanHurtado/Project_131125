@@ -105,6 +105,16 @@ const requireRole = (role) => (req, res, next) => {
 // Public (js, css, imágenes…)
 app.use(express.static('public'));
 
+// Compatibilidad: algunas vistas esperan `/img/logosanrafa.png`.
+// Servimos el `logo.png` existente en su lugar para evitar romper referencias.
+app.get('/img/logosanrafa.png', (_req, res) => {
+  try {
+    return res.sendFile(path.join(__dirname, 'public', 'img', 'logo.png'));
+  } catch (e) {
+    return res.status(404).end();
+  }
+});
+
 // Carpeta de uploads segura
 const UPLOAD_DIR = path.join(__dirname, 'uploads');
 if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
