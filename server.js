@@ -1008,8 +1008,8 @@ app.post('/api/usuarios', requireRole('admin'), async (req, res) => {
     if (!username?.trim()) errors.push('El nombre de usuario es obligatorio');
     if (!password?.trim()) errors.push('La contraseña es obligatoria');
     if (password && password.length < 6) errors.push('La contraseña debe tener al menos 6 caracteres');
-    if (!role || !['admin', 'user'].includes(role)) {
-      errors.push('Rol inválido (use admin o user)');
+    if (!role || !['admin', 'user', 'administrativo'].includes(role)) {
+      errors.push('Rol inválido (use admin,user o administrativo)');
     }
 
     const existing = await User.count({ where: { username } });
