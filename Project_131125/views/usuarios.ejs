@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="es" data-bs-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <title>Gestión de usuarios | Inventario & Mantenimientos HSRT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    /* Tamaño base un poco más pequeño */
+    body {
+      padding: 0;
+      font-size: 0.9rem;
+    }
+
+    /* Contenedor más ancho y centrado */
+    .page-wrapper {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Header local */
+    header.page-header {
+      margin-bottom: 1rem;
+    }
+    header.page-header h1 {
+      font-size: 1.15rem;
+    }
+    header.page-header p {
+      font-size: 0.82rem;
+    }
+
+    /* Botón compacto reutilizable */
+    .btn-compact {
+      padding: 0.3rem 0.7rem;
+      font-size: 0.8rem;
+      line-height: 1.2;
+    }
+
+    /* Filtros compactos */
+    .toolbar .form-label {
+      font-size: 0.8rem;
+      margin-bottom: 0.15rem;
+    }
+    .toolbar .form-control {
+      min-width: 200px;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.85rem;
+      height: calc(1.5em + 0.5rem + 2px);
+    }
+
+    /* Tabla */
+    .table thead th {
+      white-space: nowrap;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      background-color: #f8f9fa;
+    }
+
+    .table {
+      --bs-table-cell-padding-y: 0.4rem;
+      --bs-table-cell-padding-x: 0.5rem;
+    }
+
+    .table td {
+      vertical-align: middle;
+      font-size: 0.85rem;
+    }
+
+    /* Card cuadrada y fina */
+    .table-card {
+      border-radius: 0.375rem;
+      box-shadow: 0 0.1rem 0.35rem rgba(15, 23, 42, 0.05);
+      border: 1px solid #dee2e6;
+      overflow: hidden;
+    }
+
+    .table tbody tr:hover {
+      background-color: #f9fafb;
+    }
+
+    /* Acciones centradas y compactas */
+    .col-acciones {
+      text-align: center;
+      white-space: nowrap;
+      width: 160px;
+    }
+    .col-acciones .btn {
+      margin-bottom: 0.1rem;
+    }
+
+    /* Toasts */
+    .toast-container {
+      z-index: 1080;
+    }
+  </style>
+</head>
+<body class="bg-white d-flex flex-column min-vh-100">
+
+  <!-- NAVBAR SUPERIOR -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <div class="container">
+
+      <!-- Logo + Nombre -->
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <img 
+          src="/img/logo.png"
+          alt="USTA"
+          style="height:32px; width:auto;" 
+          class="rounded"
+        >
+        <span>PDS-001</span>
+      </a>
+
+      <!-- Botón colapsable móvil -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Contenido navbar -->
+      <div class="collapse navbar-collapse" id="mainNavbar">
+
+        <!-- Ítems del menú -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="/equipos">Equipos</a></li>
+          <li class="nav-item"><a class="nav-link" href="/ubicaciones">Ubicaciones</a></li>
+          <li class="nav-item"><a class="nav-link" href="/responsables-custodios">Responsables</a></li>
+          <li class="nav-item"><a class="nav-link" href="/personas-mantenimiento">Personas</a></li>
+          <li class="nav-item"><a class="nav-link" href="/cargos">Cargos</a></li>
+          <li class="nav-item"><a class="nav-link" href="/mantenimientos">Mantenimientos</a></li>
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="/usuarios">Usuarios</a></li>
+          <li class="nav-item"><a class="nav-link" href="/mi-perfil">Mi Perfil</a></li>
+        </ul>
+
+        <!-- Usuario + Salir -->
+        <% if (currentUser) { %>
+          <span class="navbar-text me-3 text-muted small">
+            Usuario: <strong><%= currentUser.username %></strong> |
+            Rol: <strong><%= currentUser.role %></strong>
+          </span>
+          <form method="post" action="/logout" class="d-inline m-0">
+            <button class="btn btn-outline-danger btn-sm">Salir</button>
+          </form>
+        <% } %>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="flex-grow-1">
+    <div class="container-fluid py-3 px-4">
+      <div class="page-wrapper">
+
+        <!-- Header local -->
+        <header class="page-header d-flex justify-content-between align-items-center">
+          <div>
+            <h1 class="h4 mb-0">Gestión de usuarios</h1>
+            <p class="text-muted mb-0">
+              Administración de cuentas de acceso al módulo: creación, edición de roles y control básico.
+            </p>
+          </div>
+          <div>
+            <button class="btn btn-primary btn-compact" id="btnNuevo">
+              ➕ Nuevo usuario
+            </button>
+          </div>
+        </header>
+
+        <!-- Filtro de búsqueda -->
+        <div class="card mb-3">
+          <div class="card-body toolbar">
+            <div class="row g-2 align-items-end">
+              <div class="col-sm-8 col-md-6 col-lg-4">
+                <label class="form-label">Buscar</label>
+                <input type="text" class="form-control" id="search" placeholder="Usuario o rol...">
+              </div>
+              <div class="col-sm-4 col-md-3 col-lg-2 d-flex gap-2">
+                <button id="btnLimpiarFiltro" class="btn btn-outline-secondary btn-compact w-100">
+                  Limpiar filtro
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla de usuarios -->
+        <div class="card table-card">
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered align-middle mb-0" id="tablaUsuarios">
+              <thead class="table-light">
+                <tr>
+                  <th>ID</th>
+                  <th>Usuario</th>
+                  <th>Rol</th>
+                  <th>Creado</th>
+                  <th>Actualizado</th>
+                  <th class="col-acciones">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyUsuarios">
+                <% usuarios.forEach(u => { %>
+                  <tr data-id="<%= u.id %>">
+                    <td><%= u.id %></td>
+                    <td><%= u.username %></td>
+                    <td>
+                      <span class="badge bg-<%= u.role === 'admin' ? 'danger' : 'secondary' %>">
+                        <%= u.role %>
+                      </span>
+                    </td>
+                    <td>
+                      <%= u.createdAt
+                            ? new Date(u.createdAt).toLocaleString('es-CO',{ timeZone:'America/Bogota' })
+                            : '' %>
+                    </td>
+                    <td>
+                      <%= u.updatedAt
+                            ? new Date(u.updatedAt).toLocaleString('es-CO',{ timeZone:'America/Bogota' })
+                            : '' %>
+                    </td>
+                    <td class="col-acciones">
+                      <button class="btn btn-sm btn-outline-primary btn-compact btn-edit">Editar</button>
+                      <button class="btn btn-sm btn-outline-danger btn-compact btn-delete">Eliminar</button>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Modal crear/editar -->
+        <div class="modal fade" id="modalUsuario" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <form id="formUsuario">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="modalTitulo">Nuevo usuario</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                  <input type="hidden" id="usuarioId">
+
+                  <div class="mb-3">
+                    <label class="form-label">Usuario</label>
+                    <input type="text" class="form-control" id="username" required>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="password" placeholder="••••••">
+                    <small class="text-muted" id="helpPassword">
+                      Para nuevo usuario es obligatoria. Al editar, deje en blanco si no desea cambiarla.
+                    </small>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Rol</label>
+                    <select class="form-select" id="role" required>
+                      <option value="user">user</option>
+                      <option value="admin">admin</option>
+                    </select>
+                  </div>
+
+                  <div class="alert alert-danger d-none" id="errorBox"></div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary btn-compact" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary btn-compact" id="btnGuardar">Guardar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Toast bootstrap básico -->
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+          <div id="mainToast" class="toast align-items-center text-bg-primary border-0" role="alert">
+            <div class="d-flex">
+              <div class="toast-body" id="toastBody">Acción realizada</div>
+              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.page-wrapper -->
+    </div><!-- /.container-fluid -->
+  </main>
+
+  <!-- FOOTER "FIJO" ABAJO -->
+  <footer class="mt-auto py-2 border-top bg-light text-center text-body-secondary small">
+    © <%= new Date().getFullYear() %> USTA – Módulo de gestión de inventario y registro de mantenimientos de equipos informáticos HSRT
+  </footer>
+
+  <!-- CURRENT_USER_ID nos permite saber desde el JS quién es el usuario actual -->
+  <script>
+    window.CURRENT_USER_ID = "<%- JSON.stringify(currentUser ? currentUser.id : null) %>";
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const search = document.getElementById('search');
+      const btnLimpiar = document.getElementById('btnLimpiarFiltro');
+
+      if (btnLimpiar && search) {
+        btnLimpiar.addEventListener('click', () => {
+          search.value = '';
+          // Disparamos un evento input para que el JS que filtra se ejecute de nuevo
+          const ev = new Event('input', { bubbles: true });
+          search.dispatchEvent(ev);
+        });
+      }
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/usuarios.js"></script>
+</body>
+</html>
