@@ -3,6 +3,7 @@ const API_CARGOS = '/api/cargos';
 
 const tbody = document.getElementById('tbody');
 const btnNuevo = document.getElementById('btnNuevo');
+const userRole = (typeof window !== 'undefined' && window.userRole) ? window.userRole : 'user';
 const modal = new bootstrap.Modal(document.getElementById('modal'));
 const $ = (id)=>document.getElementById(id);
 
@@ -55,6 +56,11 @@ async function listar(){
   }
   data.forEach(p=>{
     const tr = document.createElement('tr');
+    const actions = (userRole === 'admin')
+      ? `<button class="btn btn-sm btn-warning me-2" data-act="edit" data-id="${p.id}">Editar</button>
+         <button class="btn btn-sm btn-danger" data-act="del" data-id="${p.id}">Eliminar</button>`
+      : `<span class="text-muted">--</span>`;
+
     tr.innerHTML = `
       <td>${p.id}</td>
       <td>${p.identificacion}</td>
@@ -65,16 +71,14 @@ async function listar(){
       <td>${p.telefono || ''}</td>
       <td>${p.createdAt || ''}</td>
       <td>${p.updatedAt || ''}</td>
-      <td>
-        <button class="btn btn-sm btn-warning me-2" data-act="edit" data-id="${p.id}">Editar</button>
-        <button class="btn btn-sm btn-danger" data-act="del" data-id="${p.id}">Eliminar</button>
-      </td>`;
+      <td>${actions}</td>`;
     tbody.appendChild(tr);
   });
 }
 
 /* ===== Nueva persona mantenimiento ===== */
-btnNuevo.addEventListener('click', async ()=>{
+if (btnNuevo) {
+  btnNuevo.addEventListener('click', async ()=>{
   $('title').textContent = 'Nueva persona de mantenimiento';
   $('id').value='';
   $('identificacion').value='';
@@ -85,12 +89,14 @@ btnNuevo.addEventListener('click', async ()=>{
   await cargarCargos();
   $('cargoId').value='';
   modal.show();
-});
+  });
+}
 
 /* ===== Acciones editar/eliminar ===== */
 tbody.addEventListener('click', async (e)=>{
   const btn = e.target.closest('button'); if(!btn) return;
   const {act,id} = btn.dataset;
+  if (userRole !== 'admin') { showToast('Acción no permitida','error'); return; }
   if (act==='edit'){
     const it = await fetchJSON(`${API}/${id}`);
     $('title').textContent = `Editar persona #${id}`;

@@ -147,7 +147,9 @@
             </p>
           </div>
           <div>
-            <button id="btnNuevo" class="btn btn-primary btn-compact">➕ Nueva persona</button>
+            <% if (currentUser && currentUser.role === 'admin') { %>
+              <button id="btnNuevo" class="btn btn-primary btn-compact">➕ Nueva persona</button>
+            <% } %>
           </div>
         </header>
 
@@ -237,6 +239,9 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    window.userRole = '<%= currentUser ? currentUser.role : "user" %>';
+  </script>
   <script src="/personas_mantenimiento.js"></script>
 </body>
 </html>

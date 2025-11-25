@@ -27,8 +27,11 @@ async function listar(){
       <td>${u.id}</td><td>${u.identificacion}</td><td>${u.sede}</td><td>${u.edificio}</td><td>${u.piso}</td><td>${u.sala}</td>
       <td>${u.createdAt||''}</td><td>${u.updatedAt||''}</td>
       <td>
-        <button class="btn btn-sm btn-warning me-2" data-act="edit" data-id="${u.id}">Editar</button>
-        <button class="btn btn-sm btn-danger" data-act="del" data-id="${u.id}">Eliminar</button>
+        ${window.userRole === 'admin' ? `
+          <button class="btn btn-sm btn-warning me-2" data-act="edit" data-id="${u.id}">Editar</button>
+          <button class="btn btn-sm btn-danger" data-act="del" data-id="${u.id}">Eliminar</button>
+        ` : `<span class="text-muted small">Solo lectura</span>`
+        }
       </td>`;
     tbody.appendChild(tr);
   });

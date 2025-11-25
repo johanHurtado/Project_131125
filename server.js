@@ -1382,7 +1382,7 @@ app.get('/equipos', requireAuth,async (_req, res) => {
     include: [Ubicacion, ResponsableCustodio],
     order: [['id', 'ASC']]
   });
-  res.render('equipos', { equipos });
+  res.render('equipos', { equipos, currentUser: _req.user });
 });
 
 app.get('/ubicaciones', requireAuth,async (_req, res) => {

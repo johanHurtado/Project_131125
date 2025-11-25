@@ -294,18 +294,20 @@
                           href="/mantenimientos?equipoId=<%= e.id %>">
                           Ver Mtto
                         </a>
-                        <button
-                          class="btn btn-warning btn-compact me-1"
-                          data-act="edit"
-                          data-id="<%= e.id %>">
-                          Editar
-                        </button>
-                        <button
-                          class="btn btn-danger btn-compact"
-                          data-act="del"
-                          data-id="<%= e.id %>">
-                          Eliminar
-                        </button>
+                        <% if (currentUser && currentUser.role === 'admin') { %>
+                          <button
+                            class="btn btn-warning btn-compact me-1"
+                            data-act="edit"
+                            data-id="<%= e.id %>">
+                            Editar
+                          </button>
+                          <button
+                            class="btn btn-danger btn-compact"
+                            data-act="del"
+                            data-id="<%= e.id %>">
+                            Eliminar
+                          </button>
+                        <% } %>
                       </td>
                     </tr>
                   <% }) %>
@@ -396,6 +398,10 @@
 
   <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Variable global con el rol del usuario actual
+    window.userRole = '<%= currentUser ? currentUser.role : "user" %>';
+  </script>
   <script src="/equipos.js"></script>
 </body>
 </html>
