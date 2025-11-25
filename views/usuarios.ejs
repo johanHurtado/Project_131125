@@ -1,171 +1,124 @@
 <!doctype html>
-<html lang="es" data-bs-theme="light">
+<html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <title>Gestión de usuarios | Inventario & Mantenimientos HSRT</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+  <meta charset="utf-8">
+  <title>Gestión de usuarios | Inventario & Mantenimientos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
   <style>
-    /* Tamaño base un poco más pequeño */
-    body {
-      padding: 0;
-      font-size: 0.9rem;
-    }
+    * { transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease; }
 
-    /* Contenedor más ancho y centrado */
-    .page-wrapper {
-      max-width: 1400px;
-      margin: 0 auto;
-    }
+    :root{ --primary:#0d6efd; --muted:#6c757d; --card-radius:12px; --glass-blur:10px; --light-bg:#f5f7fa; --light-card:#ffffff; --light-text:#212529; --light-muted:#6c757d; }
+    html[data-theme="dark"] { --light-bg:#0f3460; --light-card:rgba(22,33,62,0.75); --light-text:#e6eef8; --light-muted:#9fb6d9; }
 
-    /* Header local */
-    header.page-header {
-      margin-bottom: 1rem;
-    }
-    header.page-header h1 {
-      font-size: 1.15rem;
-    }
-    header.page-header p {
-      font-size: 0.82rem;
-    }
+    body { min-height:100vh; color:var(--light-text); background: radial-gradient(circle at 10% 20%, rgba(255,255,255,0.06), transparent 8%), radial-gradient(circle at 90% 80%, rgba(255,255,255,0.04), transparent 12%), linear-gradient(135deg, var(--light-bg) 0%, #c3cfe2 100%); -webkit-font-smoothing:antialiased; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; font-size:0.95rem; }
+    html[data-theme="dark"] body{ background: radial-gradient(circle at 10% 20%, rgba(255,255,255,0.02), transparent 8%), radial-gradient(circle at 90% 80%, rgba(255,255,255,0.01), transparent 12%), linear-gradient(135deg, #0f3460 0%, #16213e 100%); }
 
-    /* Botón compacto reutilizable */
-    .btn-compact {
-      padding: 0.3rem 0.7rem;
-      font-size: 0.8rem;
-      line-height: 1.2;
-    }
+    .navbar{ background: linear-gradient(90deg, var(--light-card) 0%, rgba(255,255,255,0.95) 100%) !important; backdrop-filter: blur(var(--glass-blur)); -webkit-backdrop-filter: blur(var(--glass-blur)); border:1px solid rgba(255,255,255,0.22); box-shadow:0 8px 30px rgba(7,12,31,0.06); }
+    html[data-theme="dark"] .navbar{ background: linear-gradient(90deg, rgba(22,33,62,0.92), rgba(15,52,96,0.92)) !important; border:1px solid rgba(255,255,255,0.06); }
 
-    /* Filtros compactos */
-    .toolbar .form-label {
-      font-size: 0.8rem;
-      margin-bottom: 0.15rem;
-    }
-    .toolbar .form-control {
-      min-width: 200px;
-      padding: 0.25rem 0.5rem;
-      font-size: 0.85rem;
-      height: calc(1.5em + 0.5rem + 2px);
-    }
+    .navbar-brand { font-weight:700; font-size:1.15rem; display:flex; gap:.6rem; align-items:center; }
+    .navbar-brand img { height:36px; width:auto; }
 
-    /* Tabla */
-    .table thead th {
-      white-space: nowrap;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: .03em;
-      background-color: #f8f9fa;
-    }
+    main { padding:2.25rem 0; }
+    .page-wrapper { max-width:1200px; margin:0 auto; }
 
-    .table {
-      --bs-table-cell-padding-y: 0.4rem;
-      --bs-table-cell-padding-x: 0.5rem;
-    }
+    .page-header { border-radius:16px; padding:1.6rem; margin-bottom:1.6rem; background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.75)); backdrop-filter: blur(var(--glass-blur)); border:1px solid rgba(255,255,255,0.2); box-shadow: 0 12px 36px rgba(7,12,31,0.06); }
+    html[data-theme="dark"] .page-header{ background: linear-gradient(135deg, rgba(22,33,62,0.9), rgba(15,52,96,0.85)); border:1px solid rgba(255,255,255,0.06); }
 
-    .table td {
-      vertical-align: middle;
-      font-size: 0.85rem;
-    }
+    .page-title { font-weight:700; background:linear-gradient(135deg,var(--primary),#0dcaf0); background-clip: text; -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:0.25rem; font-size:1.05rem; }
+    .page-sub { color:var(--light-muted); margin:0; font-size:0.9rem; }
 
-    /* Card cuadrada y fina */
-    .table-card {
-      border-radius: 0.375rem;
-      box-shadow: 0 0.1rem 0.35rem rgba(15, 23, 42, 0.05);
-      border: 1px solid #dee2e6;
-      overflow: hidden;
-    }
+    .table-card { border-radius: 14px; overflow:hidden; background: linear-gradient(135deg, rgba(255,255,255,0.85), rgba(255,255,255,0.7)); border:1px solid rgba(255,255,255,0.18); box-shadow: 0 18px 50px rgba(7,12,31,0.06); }
+    html[data-theme="dark"] .table-card{ background: linear-gradient(135deg, rgba(22,33,62,0.72), rgba(15,52,96,0.65)); border:1px solid rgba(255,255,255,0.06); box-shadow:0 18px 50px rgba(0,0,0,0.35); }
 
-    .table tbody tr:hover {
-      background-color: #f9fafb;
-    }
+    .table thead th{ background: linear-gradient(135deg, rgba(13,110,253,0.06), rgba(13,202,240,0.03)); border-bottom:2px solid rgba(13,110,253,0.12); color:var(--light-text); text-transform:uppercase; font-weight:600; font-size:0.78rem; }
+    html[data-theme="dark"] .table thead th{ border-bottom:2px solid rgba(255,255,255,0.06); }
 
-    /* Acciones centradas y compactas */
-    .col-acciones {
-      text-align: center;
-      white-space: nowrap;
-      width: 160px;
-    }
-    .col-acciones .btn {
-      margin-bottom: 0.1rem;
-    }
+    .table tbody tr { transition:background 0.2s ease, transform 0.2s ease; }
+    .table tbody tr:hover { background: linear-gradient(135deg, rgba(13,110,253,0.04), rgba(13,202,240,0.02)); transform:translateY(-2px); }
 
-    /* Toasts */
-    .toast-container {
-      z-index: 1080;
-    }
+    .btn-compact { padding:0.45rem 0.75rem; font-size:0.85rem; border-radius:8px; font-weight:600; }
+    .btn-success { background: linear-gradient(135deg,#198754 0%, #20c997 100%); color:white; border:none; }
+    .btn-warning { background: linear-gradient(135deg,#ffc107,#ff9800); color:white; border:none; }
+    .btn-danger { background: linear-gradient(135deg,#dc3545,#e74c3c); color:white; border:none; }
+
+    .modal-content{ border-radius:14px; backdrop-filter: blur(var(--glass-blur)); background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(255,255,255,0.95)); border:1px solid rgba(255,255,255,0.3); box-shadow:0 30px 80px rgba(7,12,31,0.12); }
+    html[data-theme="dark"] .modal-content{ background: linear-gradient(135deg, rgba(22,33,62,0.95), rgba(15,52,96,0.95)); border:1px solid rgba(255,255,255,0.06); box-shadow:0 30px 80px rgba(0,0,0,0.45); }
+
+    .form-control, .form-select { border-radius:8px; border:1px solid rgba(0,0,0,0.08); background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.9)); color:var(--light-text); }
+    html[data-theme="dark"] .form-control, html[data-theme="dark"] .form-select { background: linear-gradient(135deg, rgba(22,33,62,0.85), rgba(15,52,96,0.8)); border:1px solid rgba(255,255,255,0.06); }
+
+    .col-acciones { text-align:center; width:160px; white-space:nowrap; }
+    .toast-stack { position: fixed; right: 1rem; bottom: 1rem; z-index: 1080; }
+
+    @media (max-width:768px){ .page-header { padding:1rem; } .page-title { font-size:1rem; } .table thead th { font-size:0.7rem; } .btn-compact { padding:0.35rem 0.6rem; font-size:0.8rem; } }
   </style>
 </head>
-<body class="bg-white d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100">
 
-  <!-- NAVBAR SUPERIOR -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg">
     <div class="container">
-
-      <!-- Logo + Nombre -->
       <a class="navbar-brand d-flex align-items-center gap-2" href="/">
-        <img 
-          src="/img/logo.png"
-          alt="USTA"
-          style="height:32px; width:auto;" 
-          class="rounded"
-        >
-        <span>PDS-001</span>
+        <img src="/img/logosanrafa.png" alt="HSRT logo" class="rounded">
+        <span>HSRT</span>
       </a>
 
-      <!-- Botón colapsable móvil -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false">
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <!-- Contenido navbar -->
       <div class="collapse navbar-collapse" id="mainNavbar">
-
-        <!-- Ítems del menú -->
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link" href="/equipos">Equipos</a></li>
-          <li class="nav-item"><a class="nav-link" href="/ubicaciones">Ubicaciones</a></li>
-          <li class="nav-item"><a class="nav-link" href="/responsables-custodios">Responsables</a></li>
-          <li class="nav-item"><a class="nav-link" href="/personas-mantenimiento">Personas</a></li>
-          <li class="nav-item"><a class="nav-link" href="/cargos">Cargos</a></li>
-          <li class="nav-item"><a class="nav-link" href="/mantenimientos">Mantenimientos</a></li>
-          <li class="nav-item"><a class="nav-link active" aria-current="page" href="/usuarios">Usuarios</a></li>
-          <li class="nav-item"><a class="nav-link" href="/mi-perfil">Mi perfil</a></li>
+          <li class="nav-item"><a class="nav-link" href="/equipos"><i class="fas fa-box me-1"></i>Equipos</a></li>
+          <li class="nav-item"><a class="nav-link" href="/ubicaciones"><i class="fas fa-map-pin me-1"></i>Ubicaciones</a></li>
+          <li class="nav-item"><a class="nav-link" href="/responsables-custodios"><i class="fas fa-user me-1"></i>Responsables</a></li>
+          <li class="nav-item"><a class="nav-link" href="/personas-mantenimiento"><i class="fas fa-users me-1"></i>Personas</a></li>
+          <li class="nav-item"><a class="nav-link" href="/cargos"><i class="fas fa-briefcase me-1"></i>Cargos</a></li>
+          <li class="nav-item"><a class="nav-link" href="/mantenimientos"><i class="fas fa-wrench me-1"></i>Mantenimientos</a></li>
+          <% if (currentUser && currentUser.role === 'admin') { %>
+          <li class="nav-item">
+            <a class="nav-link" href="/usuarios"><i class="fas fa-user-shield me-1"></i>Usuarios</a>
+          </li>
+          <% } %>
+          <li class="nav-item"><a class="nav-link" href="/mi-perfil"><i class="fas fa-user-circle me-1"></i>Mi perfil</a></li>
         </ul>
 
-        <!-- Usuario + Salir -->
-        <% if (currentUser) { %>
-          <span class="navbar-text me-3 text-muted small">
-            Usuario: <strong><%= currentUser.username %></strong> |
-            Rol: <strong><%= currentUser.role %></strong>
-          </span>
-          <form method="post" action="/logout" class="d-inline m-0">
-            <button class="btn btn-outline-danger btn-sm">Salir</button>
-          </form>
-        <% } %>
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-theme" id="themeToggle" title="Cambiar tema" style="border-radius:50%; width:40px; height:40px; display:flex; align-items:center; justify-content:center;">
+            <i class="fas fa-moon"></i>
+          </button>
 
+          <% if (currentUser) { %>
+            <span class="navbar-text me-2 text-muted small">
+              <i class="fas fa-user-check me-1"></i>
+              <strong><%= currentUser.username %></strong> |
+              <strong><%= currentUser.role %></strong>
+            </span>
+            <form method="post" action="/logout" class="d-inline m-0">
+              <button class="btn btn-danger btn-compact"><i class="fas fa-sign-out-alt me-1"></i>Salir</button>
+            </form>
+          <% } %>
+        </div>
       </div>
     </div>
   </nav>
 
-  <!-- CONTENIDO PRINCIPAL -->
+  <!-- MAIN -->
   <main class="flex-grow-1">
-    <div class="container-fluid py-3 px-4">
+    <div class="container-fluid py-4">
       <div class="page-wrapper">
-
-        <!-- Header local -->
-        <header class="page-header d-flex justify-content-between align-items-center">
+        <header class="page-header d-flex justify-content-between align-items-start">
           <div>
-            <h1 class="h4 mb-0">Gestión de usuarios</h1>
-            <p class="text-muted mb-0">
-              Administración de cuentas de acceso al módulo: creación, edición de roles y control básico.
-            </p>
+            <h1 class="page-title"><i class="fas fa-user-shield me-2"></i>Gestión de usuarios</h1>
+            <p class="page-sub">Administración de cuentas de acceso al módulo: creación, edición de roles y control básico.</p>
           </div>
           <div>
-            <button class="btn btn-primary btn-compact" id="btnNuevo">
-              ➕ Nuevo usuario
-            </button>
+            <button class="btn btn-success btn-compact" id="btnNuevo"><i class="fas fa-plus me-1"></i> Nuevo usuario</button>
           </div>
         </header>
 
@@ -178,9 +131,7 @@
                 <input type="text" class="form-control" id="search" placeholder="Usuario o rol...">
               </div>
               <div class="col-sm-4 col-md-3 col-lg-2 d-flex gap-2">
-                <button id="btnLimpiarFiltro" class="btn btn-outline-secondary btn-compact w-100">
-                  Limpiar filtro
-                </button>
+                <button id="btnLimpiarFiltro" class="btn btn-outline-secondary btn-compact w-100">Limpiar filtro</button>
               </div>
             </div>
           </div>
@@ -190,14 +141,14 @@
         <div class="card table-card">
           <div class="table-responsive">
             <table class="table table-hover table-bordered align-middle mb-0" id="tablaUsuarios">
-              <thead class="table-light">
+              <thead>
                 <tr>
                   <th>ID</th>
                   <th>Usuario</th>
                   <th>Rol</th>
                   <th>Creado</th>
                   <th>Actualizado</th>
-                  <th class="col-acciones">Acciones</th>
+                  <th class="text-center" style="width:180px;">Acciones</th>
                 </tr>
               </thead>
               <tbody id="tbodyUsuarios">
@@ -220,7 +171,7 @@
                             ? new Date(u.updatedAt).toLocaleString('es-CO',{ timeZone:'America/Bogota' })
                             : '' %>
                     </td>
-                    <td class="col-acciones">
+                    <td class="text-center">
                       <button class="btn btn-sm btn-outline-primary btn-compact btn-edit">Editar</button>
                       <button class="btn btn-sm btn-outline-danger btn-compact btn-delete">Eliminar</button>
                     </td>
@@ -251,9 +202,7 @@
                   <div class="mb-3">
                     <label class="form-label">Contraseña</label>
                     <input type="password" class="form-control" id="password" placeholder="••••••">
-                    <small class="text-muted" id="helpPassword">
-                      Para nuevo usuario es obligatoria. Al editar, deje en blanco si no desea cambiarla.
-                    </small>
+                    <small class="text-muted" id="helpPassword">Para nuevo usuario es obligatoria. Al editar, deje en blanco si no desea cambiarla.</small>
                   </div>
 
                   <div class="mb-3">
@@ -277,44 +226,60 @@
         </div>
 
         <!-- Toast bootstrap básico -->
-        <div class="toast-container position-fixed bottom-0 end-0 p-3">
-          <div id="mainToast" class="toast align-items-center text-bg-primary border-0" role="alert">
-            <div class="d-flex">
-              <div class="toast-body" id="toastBody">Acción realizada</div>
-              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-            </div>
-          </div>
-        </div>
+        <div class="toast-stack" id="toastContainer"></div>
 
-      </div><!-- /.page-wrapper -->
-    </div><!-- /.container-fluid -->
+      </div>
+    </div>
   </main>
 
-  <!-- FOOTER "FIJO" ABAJO -->
-  <footer class="mt-auto py-2 border-top bg-light text-center text-body-secondary small">
-    © <%= new Date().getFullYear() %> USTA – Módulo de gestión de inventario y registro de mantenimientos de equipos informáticos HSRT
+  <footer class="mt-auto text-center small">
+    <div class="container">
+      <p class="mb-0">© <%= new Date().getFullYear() %> USTA – Módulo de gestión de inventario y registro de mantenimientos</p>
+    </div>
   </footer>
 
-  <!-- CURRENT_USER_ID nos permite saber desde el JS quién es el usuario actual -->
   <script>
-    window.CURRENT_USER_ID = "<%- JSON.stringify(currentUser ? currentUser.id : null) %>";
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const search = document.getElementById('search');
-      const btnLimpiar = document.getElementById('btnLimpiarFiltro');
-
-      if (btnLimpiar && search) {
-        btnLimpiar.addEventListener('click', () => {
-          search.value = '';
-          // Disparamos un evento input para que el JS que filtra se ejecute de nuevo
-          const ev = new Event('input', { bubbles: true });
-          search.dispatchEvent(ev);
-        });
-      }
-    });
+    // inyecta rol inicialmente (usado por el cliente si es necesario)
+    window.userRole = '<%= currentUser ? currentUser.role : "user" %>';
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="/usuarios.js"></script>
+
+  <script>
+    // TEMA OSCURO/CLARO (persistente y basado en preferencia)
+    const themeToggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+
+    function getInitialTheme() {
+      const saved = localStorage.getItem('theme');
+      if (saved) return saved;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    function setTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      const icon = themeToggle?.querySelector('i');
+      if (icon) icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+      // asegurar visibilidad botón nuevo según rol inyectado (cliente)
+      const btn = document.getElementById('btnNuevo');
+      try {
+        const role = window.userRole ? String(window.userRole).toLowerCase() : '';
+        if (btn) btn.style.display = (role === 'admin' || role === 'administrativo') ? 'inline-flex' : (btn?.dataset.server === 'true' ? btn.style.display : 'none');
+      } catch(e){}
+    }
+
+    setTheme(getInitialTheme());
+
+    themeToggle?.addEventListener('click', () => {
+      const current = html.getAttribute('data-theme') || 'light';
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) setTheme(e.matches ? 'dark' : 'light');
+    });
+  </script>
 </body>
 </html>
