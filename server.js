@@ -1045,8 +1045,8 @@ app.put('/api/usuarios/:id', requireRole('admin'), async (req, res) => {
     if (username != null && !String(username).trim()) {
       errors.push('El nombre de usuario no puede estar vacío');
     }
-    if (role != null && !['admin', 'user'].includes(role)) {
-      errors.push('Rol inválido (use admin o user)');
+    if (role != null && !['admin', 'user', 'administrativo'].includes(role)) {
+      errors.push('Rol inválido (use admin, user o administrativo)');
     }
 
     // Validar unicidad de username si se cambia
